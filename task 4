@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple To-Do App</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #9d7b7b;
+      padding: 20px;
+    }
+    .todo-box {
+      max-width: 600px;
+      margin: auto;
+      background :rgb(138, 85, 94);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+    }
+    input, button {
+      padding: 10px;
+      margin: 5px 0;
+      font-size: 16px;
+    }
+    .task {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px 0;
+      border-bottom: 1px solid #a90101;
+      padding: 5px 0;
+    }
+    .done {
+      text-decoration: line-through;
+      color: rgb(150, 84, 84);
+    }
+    .task input[type="text"] {
+      border: none;
+      font-size: 16px;
+      background: none;
+    }
+    .actions button {
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="todo-box">
+  <h2>📝 My To-Do List</h2>
+  <input type="text" id="taskInput" placeholder="Enter your task">
+  <input type="datetime-local" id="taskTime">
+  <button onclick="addTask()">Add Task</button>
+
+  <div id="taskList"></div>
+</div>
+
+<script>
+  let tasks = [];
+
+  function addTask() {
+    const taskText = document.getElementById("taskInput").value.trim();
+    const taskTime = document.getElementById("taskTime").value;
+
+    if (taskText === "") return alert("Please enter a task!");
+
+    const task = {
+      text: taskText,
+      time: taskTime,
+      completed: false
+    };
+
+    tasks.push(task);
+    document.getElementById("taskInput").value = "";
+    document.getElementById("taskTime").value = "";
+    renderTasks();
+  }
+
+  function renderTasks() {
+    const taskList = document.getElementById("taskList");
+    taskList.innerHTML = "";
+
+    tasks.forEach((task, index) => {
+      const taskDiv = document.createElement("div");
+      taskDiv.className = "task" + (task.completed ? " done" : "");
+
+      const textInput = document.createElement("input");
+      textInput.type = "text";
+      textInput.value = `${task.text} (${task.time})`;
+      textInput.readOnly = true;
+
+      const actionsDiv = document.createElement("div");
+      actionsDiv.className = "actions";
+
+      const doneBtn = document.createElement("button");
+      doneBtn.innerText = "✅";
+      doneBtn.onclick = () => {
+        task.completed = !task.completed;
+        renderTasks();
+      };
+
+      const editBtn = document.createElement("button");
+      editBtn.innerText = "✏️";
+      editBtn.onclick = () => {
+        const newText = prompt("Edit your task:", task.text);
+        const newTime = prompt("Edit time (yyyy-mm-dd hh:mm):", task.time);
+        if (newText !== null && newText.trim() !== "") {
+          task.text = newText.trim();
+          task.time = newTime;
+          renderTasks();
+        }
+      };
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.innerText = "🗑️";
+      deleteBtn.onclick = () => {
+        tasks.splice(index, 1);
+        renderTasks();
+      };
+
+      actionsDiv.appendChild(doneBtn);
+      actionsDiv.appendChild(editBtn);
+      actionsDiv.appendChild(deleteBtn);
+
+      taskDiv.appendChild(textInput);
+      taskDiv.appendChild(actionsDiv);
+      taskList.appendChild(taskDiv);
+    });
+  }
+</script>
+
+</body>
+</html>
