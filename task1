@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ocean Literacy</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🌊 Ocean Literacy Web App</h1>
+    <nav>
+      <a href="#marine">Marine Life</a>
+      <a href="#threats">Threats</a>
+      <a href="#help">How to Help</a>
+      <a href="#quiz">Quiz</a>
+    </nav>
+  </header>
+
+  <section id="marine">
+    <h2>🐠 Marine Life</h2>
+    <p>Did you know the ocean is home to over 200,000 known species?</p>
+    <img src="assets/images/coral.jpg" alt="Coral Reef" />
+  </section>
+
+  <section id="threats">
+    <h2>🚫 Ocean Threats</h2>
+    <ul>
+      <li>Plastic pollution</li>
+      <li>Overfishing</li>
+      <li>Oil spills</li>
+    </ul>
+  </section>
+
+  <section id="help">
+    <h2>💡 How You Can Help</h2>
+    <p>Use reusable bags, avoid single-use plastics, and support ocean-friendly brands!</p>
+  </section>
+
+  <section id="quiz">
+    <h2>🧠 Ocean Quiz</h2>
+    <p id="question">What percent of Earth’s surface is ocean?</p>
+    <button onclick="checkAnswer(true)">70%</button>
+    <button onclick="checkAnswer(false)">50%</button>
+    <p id="result"></p>
+  </section>
+
+  <footer>
+    <p>🌍 Save the Ocean | Made by Pranita 🌊</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
