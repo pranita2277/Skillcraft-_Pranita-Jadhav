@@ -1,54 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ocean Literacy</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Navigation Menu</title>
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            height: 200vh; /* Extra height for scrolling demo */
+            background: #f9f9f9;
+            color: #333;
+        }
+
+        /* Navigation Styles */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        /* Logo Styles */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3a86ff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        /* Menu Styles */
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin: 0 10px;
+            position: relative;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hover Effects */
+        .nav-links a:hover {
+            color: #3a86ff;
+            background: rgba(58, 134, 255, 0.1);
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #3a86ff;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::before {
+            width: 50%;
+        }
+
+        /* Scrolled State */
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            padding: 10px 5%;
+        }
+
+        nav.scrolled .logo-img {
+            width: 35px;
+            height: 35px;
+        }
+
+        nav.scrolled .logo-text {
+            font-size: 1.2rem;
+        }
+
+        /* CTA Button */
+        .cta-btn {
+            padding: 10px 20px;
+            background: #3a86ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            background: #2667cc;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(58, 134, 255, 0.3);
+        }
+
+        /* Hero Section for Demo */
+        .hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            nav {
+                padding: 10px 5%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>🌊 Ocean Literacy Web App</h1>
-    <nav>
-      <a href="#marine">Marine Life</a>
-      <a href="#threats">Threats</a>
-      <a href="#help">How to Help</a>
-      <a href="#quiz">Quiz</a>
+    <nav id="navbar">
+        <div class="logo">
+            <div class="logo-img">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0255c1bb-8c0d-449f-bcf3-dcddb689ab69.png" alt="Company logo - abstract blue geometric symbol" />
+            </div>
+            <a href="#" class="logo-text">BrandName</a>
+        </div>
+        
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        
+        <button class="cta-btn">Get Started</button>
     </nav>
-  </header>
 
-  <section id="marine">
-    <h2>🐠 Marine Life</h2>
-    <p>Did you know the ocean is home to over 200,000 known species?</p>
-    <img src="assets/images/coral.jpg" alt="Coral Reef" />
-  </section>
+    <!-- Demo Content -->
+    <section class="hero">
+        <div>
+            <h1>Interactive Navigation</h1>
+            <p>Scroll down to see the navigation bar transform</p>
+        </div>
+    </section>
 
-  <section id="threats">
-    <h2>🚫 Ocean Threats</h2>
-    <ul>
-      <li>Plastic pollution</li>
-      <li>Overfishing</li>
-      <li>Oil spills</li>
-    </ul>
-  </section>
+    <script>
+        // Scroll Effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
 
-  <section id="help">
-    <h2>💡 How You Can Help</h2>
-    <p>Use reusable bags, avoid single-use plastics, and support ocean-friendly brands!</p>
-  </section>
+        // Smooth Scrolling for Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
 
-  <section id="quiz">
-    <h2>🧠 Ocean Quiz</h2>
-    <p id="question">What percent of Earth’s surface is ocean?</p>
-    <button onclick="checkAnswer(true)">70%</button>
-    <button onclick="checkAnswer(false)">50%</button>
-    <p id="result"></p>
-  </section>
-
-  <footer>
-    <p>🌍 Save the Ocean | Made by Pranita 🌊</p>
-  </footer>
-
-  <script src="script.js"></script>
+        // Current Page Indicator (Demo Purpose)
+        const navLinks = document.querySelectorAll('.nav-links a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
 </body>
 </html>
+
+
