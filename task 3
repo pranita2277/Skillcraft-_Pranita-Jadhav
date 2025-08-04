@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Quiz Game</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+      background: #80a8cb;
+    }
+    .quiz-box {
+      background: rgb(217, 115, 115);
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 10px #d50606;
+    }
+    .question {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .options {
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .score {
+      font-size: 22px;
+      font-weight: bold;
+      color: rgb(133, 205, 133);
+    }
+  </style>
+</head>
+<body>
+
+<div class="quiz-box">
+  <div id="quiz-container"></div>
+  <button onclick="submitAnswer()">Next</button>
+</div>
+
+<script>
+  const quizData = [
+    {
+      type: 'single',
+      question: "Which is the capital of India?",
+      options: ["Mumbai", "Delhi", "Kolkata", "Chennai"],
+      answer: "Delhi"
+    },
+    {
+      type: 'multi',
+      question: "Which of the following are programming languages?",
+      options: ["HTML", "Python", "CSS", "JavaScript"],
+      answer: ["Python", "JavaScript"]
+    },
+    {
+      type: 'text',
+      question: "Fill in the blank: HTML stands for ______.",
+      answer: "HyperText Markup Language"
+    }
+  ];
+
+  let currentQuestion = 0;
+  let score = 0;
+
+  function loadQuestion() {
+    const q = quizData[currentQuestion];
+    const container = document.getElementById("quiz-container");
+    container.innerHTML = `<div class='question'>${q.question}</div><div class='options'>`;
+
+    if (q.type === "single") {
+      q.options.forEach(opt => {
+        container.innerHTML += `<label><input type="radio" name="option" value="${opt}"> ${opt}</label><br>`;
+      });
+    } else if (q.type === "multi") {
+      q.options.forEach(opt => {
+        container.innerHTML += `<label><input type="checkbox" name="option" value="${opt}"> ${opt}</label><br>`;
+      });
+    } else if (q.type === "text") {
+      container.innerHTML += `<input type="text" id="text-answer" placeholder="Type your answer here">`;
+    }
+
+    container.innerHTML += `</div>`;
+  }
+
+  function submitAnswer() {
+    const q = quizData[currentQuestion];
+    let userAnswer;
+
+    if (q.type === "single") {
+      const selected = document.querySelector('input[name="option"]:checked');
+      userAnswer = selected ? selected.value : "";
+      if (userAnswer === q.answer) score++;
+
+    } else if (q.type === "multi") {
+      const selected = Array.from(document.querySelectorAll('input[name="option"]:checked')).map(i => i.value);
+      if (arraysEqual(selected.sort(), q.answer.sort())) score++;
+
+    } else if (q.type === "text") {
+      userAnswer = document.getElementById("text-answer").value.trim();
+      if (userAnswer.toLowerCase() === q.answer.toLowerCase()) score++;
+    }
+
+    currentQuestion++;
+    if (currentQuestion < quizData.length) {
+      loadQuestion();
+    } else {
+      showScore();
+    }
+  }
+
+  function arraysEqual(a, b) {
+    return a.length === b.length && a.every((val, i) => val === b[i]);
+  }
+
+  function showScore() {
+    document.getElementById("quiz-container").innerHTML = `<div class="score">You scored ${score} out of ${quizData.length}</div>`;
+    document.querySelector("button").style.display = "none";
+  }
+
+  // Load the first question
+  loadQuestion();
+</script>
+
+</body>
+</html>
